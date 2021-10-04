@@ -2,14 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 import Logo from "./Logo";
-import NavMenu from "./NavMenu";
 import Login from "./Login";
 
 function Header() {
   return (
     <Nav>
       <Logo />
-      <NavMenu />
       <Login />
     </Nav>
   );

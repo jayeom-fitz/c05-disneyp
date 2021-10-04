@@ -1,21 +1,71 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-import { signInWithPopup } from "@firebase/auth";
+import { signInWithPopup, signOut } from "@firebase/auth";
 import { auth, provider } from "firebase";
 
+import {
+  selectUserName,
+  selectUserPhoto,
+  setUserLoginState,
+  setLogoutState,
+} from "_redux/userSlice";
+import NavMenu from "./NavMenu";
+import User from "./User";
+
 function Login() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const userName = useSelector(selectUserName);
+  const userPhoto = useSelector(selectUserPhoto);
+
   const handleAuth = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    if (!userName) {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          setUser(result.user);
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    } else {
+      signOut(auth)
+        .then(() => {
+          dispatch(setLogoutState());
+          history.push("/");
+        })
+        .catch((err) => alert(err.message));
+    }
   };
 
-  return <Container onClick={handleAuth}>Login</Container>;
+  const setUser = (user) => {
+    dispatch(
+      setUserLoginState({
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+      })
+    );
+  };
+
+  return (
+    <>
+      {!userName ? (
+        <Container onClick={handleAuth}>Login</Container>
+      ) : (
+        <>
+          <NavMenu />
+          <User
+            userName={userName}
+            userPhoto={userPhoto}
+            handleAuth={handleAuth}
+          />
+        </>
+      )}
+    </>
+  );
 }
 
 export default Login;

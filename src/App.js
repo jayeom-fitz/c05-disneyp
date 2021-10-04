@@ -1,8 +1,9 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Header from './components/header/Header';
+import Header from "./components/header/Header";
 
-import Login from './components/Login';
+import Login from "./components/Login";
+import Home from "components/Home";
 
 function App() {
   return (
@@ -11,8 +12,11 @@ function App() {
         <Header />
 
         <Switch>
-          <Route exact path='/'>
+          <Route exact path="/">
             <Login />
+          </Route>
+          <Route path="/home">
+            <Home />
           </Route>
         </Switch>
       </Router>
