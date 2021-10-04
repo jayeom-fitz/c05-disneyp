@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { signInWithPopup, signOut } from "@firebase/auth";
+import { onAuthStateChanged, signInWithPopup, signOut } from "@firebase/auth";
 import { auth, provider } from "firebase";
 
 import {
@@ -20,6 +20,15 @@ function Login() {
   const history = useHistory();
   const userName = useSelector(selectUserName);
   const userPhoto = useSelector(selectUserPhoto);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+        history.push("/home");
+      }
+    });
+  }, [userName]);
 
   const handleAuth = () => {
     if (!userName) {
