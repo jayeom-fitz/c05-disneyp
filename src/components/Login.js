@@ -7,14 +7,14 @@ function Login() {
       <Content>
         <CTA>
           aaa
-          <CTALogoOne src="/images/cta/cta-logo-one.svg" />
+          <CTALogoOne src="/images/logo/cta-logo-one.svg" />
           <SignUp>GET ALL THERE</SignUp>
           <Description>
             Get Premier Access to Raya and the Last Dragon for an additional fee
             with a Disney+ subscription. As of 03/26/21, the price of Disney+
             and The Disney Bundle will increase by $1.
           </Description>
-          <CTALogoTwo src="/images/cta/cta-logo-two.png" />
+          <CTALogoTwo src="/images/logo/cta-logo-two.png" />
         </CTA>
 
         <BgImage />

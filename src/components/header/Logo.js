@@ -1,15 +1,15 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
 function Logo() {
   return (
     <Container>
-      <img src='/images/logo.svg' />
+      <img src="/images/logo/logo.svg" />
     </Container>
-  )
+  );
 }
 
-export default Logo
+export default Logo;
 
 const Container = styled.a`
   padding: 0;
@@ -23,4 +23,4 @@ const Container = styled.a`
     display: block;
     width: 100%;
   }
-`
+`;
