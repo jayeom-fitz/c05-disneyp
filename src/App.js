@@ -4,6 +4,7 @@ import Header from "./components/header/Header";
 
 import Login from "./components/Login";
 import Home from "components/home/Home";
+import Detail from "components/detail/Detail";
 
 function App() {
   return (
@@ -15,8 +16,13 @@ function App() {
           <Route exact path="/">
             <Login />
           </Route>
+
           <Route path="/home">
             <Home />
+          </Route>
+
+          <Route path="/detail/:id">
+            <Detail />
           </Route>
         </Switch>
       </Router>

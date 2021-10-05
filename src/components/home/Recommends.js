@@ -11,11 +11,11 @@ import {
 
 function Recommends({ title, type }) {
   const movies = useSelector(
-    type == "new"
+    type === "new"
       ? selectNewDisney
-      : type == "original"
+      : type === "original"
       ? selectOriginal
-      : type == "trending"
+      : type === "trending"
       ? selectTrending
       : selectRecommend
   );

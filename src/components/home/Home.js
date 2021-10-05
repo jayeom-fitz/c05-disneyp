@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { db } from "firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, getDocs } from "firebase/firestore";
 import { setMovies } from "_redux/movieSlice";
 
 import ImgSlider from "./ImgSlider";
