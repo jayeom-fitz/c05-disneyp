@@ -1,16 +1,69 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+
+import { db } from "firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { setMovies } from "_redux/movieSlice";
 
 import ImgSlider from "./ImgSlider";
-import Recommends from "./Recommends";
 import Viewers from "./Viewers";
 
+import Recommends from "./Recommends";
+
 function Home() {
+  const dispatch = useDispatch();
+  let recommends = [];
+  let newDisneys = [];
+  let originals = [];
+  let trending = [];
+
+  useEffect(() => {
+    async function getMoviesData() {
+      const q = query(collection(db, "movies"));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        switch (doc.data().type) {
+          case "recommend":
+            recommends = [...recommends, { id: doc.id, ...doc.data() }];
+            break;
+
+          case "new":
+            newDisneys = [...newDisneys, { id: doc.id, ...doc.data() }];
+            break;
+
+          case "original":
+            originals = [...originals, { id: doc.id, ...doc.data() }];
+            break;
+
+          case "trending":
+            trending = [...trending, { id: doc.id, ...doc.data() }];
+            break;
+        }
+      });
+
+      dispatch(
+        setMovies({
+          recommend: recommends,
+          newDisney: newDisneys,
+          original: originals,
+          trending: trending,
+        })
+      );
+    }
+
+    getMoviesData();
+  }, []);
+
   return (
     <Container>
       <ImgSlider />
       <Viewers />
-      <Recommends />
+
+      <Recommends title="Recommends for you" type="recommend" />
+      <Recommends title="New to Disney+" type="new" />
+      <Recommends title="Originals" type="original" />
+      <Recommends title="Trending" type="trending" />
     </Container>
   );
 }

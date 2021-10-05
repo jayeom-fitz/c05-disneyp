@@ -2,25 +2,37 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import {
+  selectRecommend,
+  selectNewDisney,
+  selectOriginal,
+  selectTrending,
+} from "_redux/movieSlice";
 
-import { db } from "firebase";
-import { addDoc, collection } from "@firebase/firestore";
-import disneyData from "./disneyPlusMoviesData";
-
-function Recommends() {
-  const handleData = () => {
-    var array = disneyData.movies;
-    array.forEach(async (movie) => {
-      const docRef = await addDoc(collection(db, "movies"), movie);
-      console.log("Document written with ID: ", docRef.id);
-    });
-  };
+function Recommends({ title, type }) {
+  const movies = useSelector(
+    type == "new"
+      ? selectNewDisney
+      : type == "original"
+      ? selectOriginal
+      : type == "trending"
+      ? selectTrending
+      : selectRecommend
+  );
 
   return (
     <Container>
-      <h4>Recommended for You</h4>
+      <h4>{title}</h4>
       <Content>
-        <button onClick={handleData}>send data to firestore</button>
+        {movies &&
+          movies.map((movie, key) => (
+            <Wrap key={key}>
+              {movie.id}
+              <Link to={`/detail/` + movie.id}>
+                <img src={movie.cardImg} alt={movie.title} />
+              </Link>
+            </Wrap>
+          ))}
       </Content>
     </Container>
   );
